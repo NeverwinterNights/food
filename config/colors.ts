@@ -9,6 +9,7 @@
 
 export default  {
     primary:"green",
-    white:"white"
-
+    white:"white",
+    primaryColor: '#4a148c',
+    accentColor: '#ff6f00'
 }

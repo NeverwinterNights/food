@@ -3,22 +3,23 @@ import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import {CategoriesScreen} from '../screens/CategoriesScreen';
 import {CategoryMealsScreen} from "../screens/CategoryMealsScreen";
 import {MealDetailScreen} from "../screens/MealDetailScreen";
+import {FavoritesScreen} from "../screens/FavoritesScreen";
+import {FavoritesNavigatorStackParamList} from "./types";
 import colors from "../config/colors";
-import {MealsNavigatorStackParamList} from "./types";
 
 
-const Stack = createNativeStackNavigator<MealsNavigatorStackParamList>();
+const Stack = createNativeStackNavigator<FavoritesNavigatorStackParamList>();
 
-export const MealsNavigator = () => {
+export const FavoritesNavigator = () => {
     return <Stack.Navigator>
         <Stack.Screen options={{
-            headerTitle: "Meal Categories",
+            headerTitle: "Your Favorites",
             headerTitleAlign: "center",
             headerStyle: {backgroundColor: colors.primaryColor},
             headerTintColor: "white"
-        }} name={"CategoriesScreen"} component={CategoriesScreen}/>
-        <Stack.Screen name={"CategoryMealsScreen"} component={CategoryMealsScreen}/>
+        }} name={"FavoritesScreen"} component={FavoritesScreen}/>
         <Stack.Screen name={"MealDetailScreen"} component={MealDetailScreen}/>
     </Stack.Navigator>
 }
+
 

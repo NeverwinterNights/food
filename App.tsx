@@ -5,7 +5,11 @@ import * as SplashScreen from 'expo-splash-screen';
 import React, {useCallback, useEffect, useState} from "react";
 import {NavigationContainer} from '@react-navigation/native';
 import {MealsNavigator} from "./navigation/MealsNavigator";
-import {createNativeStackNavigator} from "@react-navigation/native-stack";
+import {enableFreeze} from 'react-native-screens';
+import { OverflowMenuProvider } from 'react-navigation-header-buttons';
+import {MealsTabNavigator} from "./navigation/MealsTabNavigator";
+
+enableFreeze(true);
 
 const fetchFonts = () => {
     return Font.loadAsync({
@@ -46,10 +50,12 @@ export default function App() {
 
 
     return (
-        <View onLayout={onLayoutRootView} style={{ flex: 1}}>
+        <View onLayout={onLayoutRootView} style={{flex: 1}}>
+            <StatusBar style="auto"/>
             <NavigationContainer>
-                <StatusBar style="auto"/>
-                <MealsNavigator/>
+              <OverflowMenuProvider>
+                    <MealsTabNavigator/>
+               </OverflowMenuProvider>
             </NavigationContainer>
         </View>
     );

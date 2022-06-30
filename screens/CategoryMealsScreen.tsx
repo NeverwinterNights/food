@@ -1,11 +1,9 @@
 import React, {useLayoutEffect} from 'react';
-import {StyleSheet, View} from 'react-native';
-import {AppText} from "../components/AppText";
 import {useNavigation} from "@react-navigation/native";
-import {CustomButton} from "../components/CustomButton";
 import {CategoryMealsPropsType, NavigationCategoriesScreenType} from "../navigation/types";
-import {CATEGORIES, CategoryType} from "../data/dummy-data";
-import {Colors} from "../constants/Colors";
+import {CATEGORIES, CategoryType, MEALS} from "../data/dummy-data";
+import colors from "../config/colors";
+import {MealsList} from "../components/MealsList";
 
 type CategoryMealsScreenPropsType = {}
 
@@ -18,38 +16,27 @@ export const CategoryMealsScreen = ({route}: CategoryMealsPropsType) => {
 
     const selectedCategory: CategoryType | undefined = CATEGORIES.find(cat => categoryID === cat.id)
 
+    const currentMeal = MEALS.filter((meal) => meal.categoryIds.indexOf(categoryID) >= 0)
+
     useLayoutEffect(() => {
         navigation.setOptions({
             title: selectedCategory && selectedCategory.title,
             headerTitleAlign: "center",
-            headerStyle: {backgroundColor: Colors.primaryColor},
-            headerTintColor: "white"
+            headerStyle: {backgroundColor: colors.primaryColor},
+            headerTintColor: "white",
+
         });
     }, [navigation, selectedCategory]);
 
+    const onMealClickHandler = (id: string) => {
+        navigation.navigate("MealDetailScreen", {mealID: id})
+    }
+
 
     return (
-        <View style={styles.container}>
-            <AppText>The Category Meals Screen</AppText>
-            <AppText>{selectedCategory && selectedCategory.title}</AppText>
-            <CustomButton children={"Jump to MealDetailScreen"} onPress={() => {
-                navigation.navigate("MealDetailScreen")
-            }}/>
-        </View>
+        <MealsList currentMeal={currentMeal} onMealClickHandler={onMealClickHandler}/>
     );
 };
 
 
-CategoryMealsScreen.navigationOptions = (navigationData: any) => {
-    const navigation = useAppNavigation()
-    console.log(navigation);
 
-}
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    }
-});
