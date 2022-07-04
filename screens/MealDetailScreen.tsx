@@ -1,17 +1,15 @@
-import React, {useLayoutEffect} from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import React, {useEffect, useLayoutEffect} from 'react';
+import {Image, ScrollView, StyleSheet, View} from 'react-native';
 import {AppText} from "../components/AppText";
 import {useNavigation} from "@react-navigation/native";
-import {CustomButton} from "../components/CustomButton";
 import {MealDetailPropsType, NavigationCategoriesScreenType} from "../navigation/types";
-import {MEALS} from "../data/dummy-data";
+import {MealType} from "../data/dummy-data";
 
-import {HeaderButton, HeaderButtons, HiddenItem, Item, OverflowMenu} from "react-navigation-header-buttons";
+import {HeaderButtons, Item} from "react-navigation-header-buttons";
 import {CustomHeaderButton} from "../components/HeaderButton";
-import {Ionicons} from "@expo/vector-icons";
 import colors from "../config/colors";
-
-
+import {useAppDispatch, useAppSelector} from "../store/store";
+import {addFavoritesAC} from "../store/slice";
 
 
 const useAppNavigation = () => useNavigation<NavigationCategoriesScreenType>()
@@ -19,8 +17,22 @@ const useAppNavigation = () => useNavigation<NavigationCategoriesScreenType>()
 export const MealDetailScreen = ({route}: MealDetailPropsType) => {
     const {mealID} = route.params
     const navigation = useAppNavigation()
+    const dispatch = useAppDispatch()
 
-    const currentClickedMeal = MEALS.find((meal) => meal.id === mealID)
+    const availableMeal = useAppSelector(state => state.reducer.meals)
+
+    const currentClickedMeal: MealType | undefined = availableMeal.find((meal) => meal.id === mealID)
+    const currentFavoriteMeals = useAppSelector(state => state.reducer.favoriteMeals)
+    const toggleFavoritesHandler = (id: string) => {
+        dispatch(addFavoritesAC({id}))
+    }
+
+    let isFav: boolean
+    useEffect(() => {
+        isFav = currentFavoriteMeals.some((meal) => meal.id === mealID)
+    }, [currentFavoriteMeals])
+
+
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -28,41 +40,64 @@ export const MealDetailScreen = ({route}: MealDetailPropsType) => {
             headerTitleAlign: "center",
             headerStyle: {backgroundColor: colors.primaryColor},
             headerTintColor: "white",
-            // headerRight: () => (
-            //     <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-            //         <Item title={"Favorite"} iconName={"ios-star"} onPress={() => console.log("ggg")}/>
-            //        {/*<CustomButton children={""}/>*/}
-            //        {/* <Item title={"Favorite"} iconName={"ios-star"} onPress={() => console.log("ggg")}/>*/}
-            //        {/* <CustomHeaderButton/>*/}
-            //     </HeaderButtons>
-            //
-            // ),
             headerRight: () => (
                 <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-                    <Item title="Favorite" iconName="ios-star" onPress={() => alert('search')} />
+                    <Item title="Favorite"
+                          iconName={isFav ? "ios-star" : "ios-star-outline"}
+                          onPress={() => {
+                              toggleFavoritesHandler(mealID)
+                          }}/>
                 </HeaderButtons>
             ),
-
-
         });
-    }, [navigation, currentClickedMeal]);
+    }, [navigation, currentClickedMeal, currentFavoriteMeals]);
 
 
     return (
-        <View style={styles.container}>
-            <AppText>{currentClickedMeal && currentClickedMeal.title}</AppText>
-            <AppText>{mealID}</AppText>
-            <CustomButton children={"Jump to CategoriesScreen"} onPress={() => {
-                navigation.navigate("CategoriesScreen")
-            }}/>
-        </View>
+        <ScrollView>
+            <Image style={styles.image} source={{uri: currentClickedMeal && currentClickedMeal.imageUrl}}/>
+            <View style={styles.details}>
+                <AppText
+                    style={{fontFamily: "open-sans"}}>{currentClickedMeal && currentClickedMeal.duration}m</AppText>
+                <AppText
+                    style={{fontFamily: "open-sans"}}>{currentClickedMeal && currentClickedMeal.complexity.toUpperCase()}</AppText>
+                <AppText
+                    style={{fontFamily: "open-sans"}}>{currentClickedMeal && currentClickedMeal.affordability.toUpperCase()}</AppText>
+            </View>
+            <AppText style={styles.title}>Ingredients</AppText>
+            {currentClickedMeal && currentClickedMeal.ingredients.map((ingredient) =>
+                <AppText style={styles.list} key={ingredient}>{ingredient}</AppText>
+            )}
+            <AppText style={styles.title}>Steps</AppText>
+            {currentClickedMeal && currentClickedMeal.steps.map((step) =>
+                <AppText style={styles.list} key={step}>{step}</AppText>
+            )}
+        </ScrollView>
     );
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    }
+
+    image: {
+        width: "100%",
+        height: 300,
+    },
+    details: {
+        flexDirection: "row",
+        padding: 15,
+        justifyContent: "space-around"
+
+    },
+    title: {
+        textAlign: "center",
+        fontFamily: "open-sans-bold",
+        fontSize: 22
+    },
+    list: {
+        marginVertical: 10,
+        marginHorizontal: 20,
+        borderWidth: 1,
+        borderColor: "#ccc",
+        padding: 10
+    },
 });

@@ -1,8 +1,7 @@
 import React from 'react';
 import {FlatList, StyleSheet, View} from 'react-native';
 import {MealItem} from "./MealItem";
-import {MEALS, MealType} from "../data/dummy-data";
-import {AppText} from "./AppText";
+import {MealType} from "../data/dummy-data";
 
 type MealsListPropsType = {
     currentMeal: MealType[]
@@ -10,12 +9,12 @@ type MealsListPropsType = {
 }
 
 export const MealsList = ({currentMeal, onMealClickHandler}: MealsListPropsType) => {
-      return (
+    return (
         <View style={styles.container}>
             <FlatList data={currentMeal} style={{width: "100%"}} showsVerticalScrollIndicator={false}
                       keyExtractor={(item) => item.id} renderItem={({item}) =>
                 <MealItem item={item} onMealSelect={() => onMealClickHandler(item.id)}/>
-                 }/>
+            }/>
         </View>
     );
 };

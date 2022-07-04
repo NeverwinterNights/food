@@ -22,9 +22,9 @@ export const MealItem = ({item, onMealSelect}: MealItemPropsType) => {
                         </ImageBackground>
                     </View>
                     <View style={[styles.mealRow, styles.mealDetail]}>
-                        <AppText>{item.duration}m</AppText>
-                        <AppText>{item.complexity.toUpperCase()}</AppText>
-                        <AppText>{item.affordability.toUpperCase()}</AppText>
+                        <AppText style={{fontFamily:"open-sans"}}>{item.duration}m</AppText>
+                        <AppText style={{fontFamily:"open-sans"}}>{item.complexity.toUpperCase()}</AppText>
+                        <AppText style={{fontFamily:"open-sans"}}>{item.affordability.toUpperCase()}</AppText>
                     </View>
                 </View>
             </TouchableOpacity>

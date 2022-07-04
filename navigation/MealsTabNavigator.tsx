@@ -1,6 +1,5 @@
 import {useNavigation} from "@react-navigation/native";
 import {MealsNavigator} from "./MealsNavigator";
-import {FavoritesScreen} from "../screens/FavoritesScreen";
 import {NavigationTabType} from "./types";
 import colors from "../config/colors";
 import {Ionicons} from "@expo/vector-icons"
@@ -10,26 +9,25 @@ import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {FavoritesNavigator} from "./FavoritesNavigator";
 
 
-// Platform.OS == "android" ? createMaterialBottomTabNavigator() :
 const Tab = Platform.OS == "android" ? createMaterialBottomTabNavigator() : createBottomTabNavigator();
 const useAppNavigation = () => useNavigation<NavigationTabType>()
 
 
 export const MealsTabNavigator = ({route}: any) => {
     const navigation = useAppNavigation()
-    const getNavigationOptions = () => {
-        if (Platform.OS === 'ios') {
-            return {
-                headerTitleAlign: "center",
-                headerShown: false,
-                tabBarActiveTintColor: colors.accentColor,
-            };
-        }
-        return {
-            headerShown: false,
-            tabBarActiveTintColor: colors.accentColor,
-        };
-    };
+    // const getNavigationOptions = () => {
+    //     if (Platform.OS === 'ios') {
+    //         return {
+    //             headerTitleAlign: "center",
+    //             headerShown: false,
+    //             tabBarActiveTintColor: colors.accentColor,
+    //         };
+    //     }
+    //     return {
+    //         headerShown: false,
+    //         tabBarActiveTintColor: colors.accentColor,
+    //     };
+    // };
 
 
     return (
@@ -82,12 +80,13 @@ export const MealsTabNavigator = ({route}: any) => {
             //  activeColor="#e91e63"
             // inactiveColor="#3e2465"
 
-           // barStyle={{backgroundColor: '#4d2ca3'}}
-
+            barStyle={{backgroundColor: '#4d2ca3'}}
         >
             <Tab.Screen options={
                 {
-
+                    tabBarLabelStyle: {
+                        fontFamily: "open-sans-bold"
+                    },
                     tabBarColor: colors.primaryColor,
                     // tabBarColor: "#e91e63",
                     tabBarIcon: ({focused}: { focused: boolean }) => {
@@ -102,6 +101,9 @@ export const MealsTabNavigator = ({route}: any) => {
             } name={"Meals"} component={MealsNavigator}/>
 
             <Tab.Screen options={{
+                tabBarLabelStyle: {
+                    fontFamily: "open-sans-bold"
+                },
                 title: "Favorites!",
                 tabBarColor: "#368dff",
                 tabBarActiveBackgroundColor: colors.accentColor,

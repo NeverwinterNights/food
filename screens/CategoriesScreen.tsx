@@ -1,22 +1,38 @@
-import React from 'react';
+import React, {useLayoutEffect} from 'react';
 import {FlatList, StyleSheet} from 'react-native';
-import {useNavigation} from "@react-navigation/native";
-import {CATEGORIES, CategoryType} from "../data/dummy-data";
-import {NavigationCategoriesScreenType} from "../navigation/types";
+import {useNavigation, DrawerActions} from "@react-navigation/native";
+import {CATEGORIES} from "../data/dummy-data";
+import {DrawerNavigatorParamList, DrawerScreenType, NavigationCategoriesScreenType} from "../navigation/types";
 
 import {CategoryGridTile} from "../components/CategoryGridTile";
 import colors from "../config/colors";
+import {HeaderButtons, Item} from "react-navigation-header-buttons";
+import {CustomHeaderButton} from "../components/HeaderButton";
 
 type CategoriesScreenPropsType = {}
 
 const useAppNavigation = () => useNavigation<NavigationCategoriesScreenType>()
 
 
-export const CategoriesScreen = ({}: CategoriesScreenPropsType) => {
 
+export const CategoriesScreen = ({}: CategoriesScreenPropsType) => {
     const navigation = useAppNavigation()
 
-
+    useLayoutEffect(() => {
+        navigation.setOptions(
+            {
+                title: "Meal Categories",
+                headerTitleAlign: "center",
+                headerStyle: {backgroundColor: colors.primaryColor},
+                headerTintColor: "white",
+                headerLeft: (props:any) => (
+                    <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+                       <Item title="Menu" iconName="ios-menu" onPress={() => navigation.dispatch(DrawerActions.openDrawer())}/>
+                        {/*<Item title="Menu" iconName="ios-menu" onPress={() => navigation.openDrawer()}/>*/}
+                    </HeaderButtons>
+                ),
+            });
+    }, [navigation]);
 
     return (
         <FlatList
@@ -27,7 +43,5 @@ export const CategoriesScreen = ({}: CategoriesScreenPropsType) => {
                                                       onSelect={() => navigation.navigate("CategoryMealsScreen", {categoryID: item.id})}/>}/>
     );
 };
-
-
 
 const styles = StyleSheet.create({});

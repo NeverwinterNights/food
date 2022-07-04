@@ -8,6 +8,11 @@ import {MealsNavigator} from "./navigation/MealsNavigator";
 import {enableFreeze} from 'react-native-screens';
 import { OverflowMenuProvider } from 'react-navigation-header-buttons';
 import {MealsTabNavigator} from "./navigation/MealsTabNavigator";
+import {DrawerNavigator} from "./navigation/DrawerNavigator";
+import {store} from "./store/store";
+import {Provider} from "react-redux";
+
+
 
 enableFreeze(true);
 
@@ -29,7 +34,7 @@ export default function App() {
                 await fetchFonts()
                 await new Promise(resolve => setTimeout(resolve, 2000));
             } catch (e) {
-                console.warn(e);
+                 console.warn(e);
             } finally {
                 setIsLoaded(true);
             }
@@ -50,14 +55,17 @@ export default function App() {
 
 
     return (
+        <Provider store={store}>
         <View onLayout={onLayoutRootView} style={{flex: 1}}>
             <StatusBar style="auto"/>
             <NavigationContainer>
               <OverflowMenuProvider>
-                    <MealsTabNavigator/>
+                    {/*<MealsTabNavigator/>*/}
+                    <DrawerNavigator/>
                </OverflowMenuProvider>
             </NavigationContainer>
         </View>
+        </Provider>
     );
 }
 
