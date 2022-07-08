@@ -1,8 +1,7 @@
 import React, {useEffect, useLayoutEffect} from 'react';
 import {Image, ScrollView, StyleSheet, View} from 'react-native';
 import {AppText} from "../components/AppText";
-import {useNavigation} from "@react-navigation/native";
-import {MealDetailPropsType, NavigationCategoriesScreenType} from "../navigation/types";
+import {MealDetailPropsType, useAppNavigation} from "../navigation/types";
 import {MealType} from "../data/dummy-data";
 
 import {HeaderButtons, Item} from "react-navigation-header-buttons";
@@ -11,8 +10,6 @@ import colors from "../config/colors";
 import {useAppDispatch, useAppSelector} from "../store/store";
 import {addFavoritesAC} from "../store/slice";
 
-
-const useAppNavigation = () => useNavigation<NavigationCategoriesScreenType>()
 
 export const MealDetailScreen = ({route}: MealDetailPropsType) => {
     const {mealID} = route.params
@@ -31,7 +28,6 @@ export const MealDetailScreen = ({route}: MealDetailPropsType) => {
     useEffect(() => {
         isFav = currentFavoriteMeals.some((meal) => meal.id === mealID)
     }, [currentFavoriteMeals])
-
 
 
     useLayoutEffect(() => {
@@ -77,7 +73,6 @@ export const MealDetailScreen = ({route}: MealDetailPropsType) => {
 };
 
 const styles = StyleSheet.create({
-
     image: {
         width: "100%",
         height: 300,

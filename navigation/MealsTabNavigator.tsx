@@ -1,6 +1,6 @@
 import {useNavigation} from "@react-navigation/native";
 import {MealsNavigator} from "./MealsNavigator";
-import {NavigationTabType} from "./types";
+import {NavigationTabType, useAppNavigation} from "./types";
 import colors from "../config/colors";
 import {Ionicons} from "@expo/vector-icons"
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
@@ -10,7 +10,6 @@ import {FavoritesNavigator} from "./FavoritesNavigator";
 
 
 const Tab = Platform.OS == "android" ? createMaterialBottomTabNavigator() : createBottomTabNavigator();
-const useAppNavigation = () => useNavigation<NavigationTabType>()
 
 
 export const MealsTabNavigator = ({route}: any) => {

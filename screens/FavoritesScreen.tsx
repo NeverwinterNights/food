@@ -1,6 +1,6 @@
 import React, {useLayoutEffect} from 'react';
 import {DrawerActions, useNavigation} from "@react-navigation/native";
-import {NavigationTabType} from "../navigation/types";
+import {NavigationTabType, useAppNavigation} from "../navigation/types";
 import {MealsList} from "../components/MealsList";
 import colors from "../config/colors";
 import {HeaderButtons, Item} from "react-navigation-header-buttons";
@@ -10,7 +10,7 @@ import {View} from "react-native";
 import {AppText} from "../components/AppText";
 
 type FavoritesScreenPropsType = {}
-const useAppNavigation = () => useNavigation<NavigationTabType>()
+
 export const FavoritesScreen = ({}: FavoritesScreenPropsType) => {
 
     const favMeal = useAppSelector(state => state.reducer.favoriteMeals)

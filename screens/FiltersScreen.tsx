@@ -7,12 +7,12 @@ import {HeaderButtons, Item} from "react-navigation-header-buttons";
 import {CustomHeaderButton} from "../components/HeaderButton";
 import {useAppDispatch} from "../store/store";
 import {filtersSettings, setFiltersAC} from "../store/slice";
+import { useAppNavigation } from '../navigation/types';
 
 
 LogBox.ignoreLogs(["Non-serializable values were found in the navigation state. Check:"]);
 
 
-const useAppNavigation = () => useNavigation<any>()
 
 
 type FilterSwitchPropsType = {
@@ -92,7 +92,7 @@ export const FiltersScreen = () => {
 
 
     // useEffect(() => {
-    //     navigation.setParams({save: saveFilters}) // задизейбблел желтую ошибку
+    //     navigation.setParams({save: saveFilters})
     // }, [saveFilters])
 
 

@@ -1,6 +1,6 @@
 import React, {useLayoutEffect} from 'react';
 import {useNavigation} from "@react-navigation/native";
-import {CategoryMealsPropsType, NavigationCategoriesScreenType} from "../navigation/types";
+import {CategoryMealsPropsType, NavigationCategoriesScreenType, useAppNavigation} from "../navigation/types";
 import {CATEGORIES, CategoryType} from "../data/dummy-data";
 import colors from "../config/colors";
 import {MealsList} from "../components/MealsList";
@@ -10,7 +10,6 @@ import {AppText} from "../components/AppText";
 
 type CategoryMealsScreenPropsType = {}
 
-const useAppNavigation = () => useNavigation<NavigationCategoriesScreenType>()
 
 
 export const CategoryMealsScreen = ({route}: CategoryMealsPropsType) => {
@@ -36,10 +35,10 @@ export const CategoryMealsScreen = ({route}: CategoryMealsPropsType) => {
     }, [navigation, selectedCategory]);
 
     const onMealClickHandler = (id: string) => {
-        navigation.navigate("MealDetailScreen", {mealID: id})
+        navigation.navigate("Meals", {screen:"MealDetailScreen", params:{mealID: id}})
     }
 
-    console.log(filteredMeal);
+
 
     if (currentMeal.length === 0) {
         return <View style={{
