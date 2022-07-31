@@ -54,7 +54,6 @@ export const FiltersScreen = () => {
             vegan: isVegan,
             vegetarian: isVegetarian
         }
-        console.log(settledFilters)
         dispatch(setFiltersAC({filters: settledFilters}))
 
     }, [isGlutenFree, isLactoseFree, isVegan, isVegetarian])
